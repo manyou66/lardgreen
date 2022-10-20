@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:lardgreen/models/order_product_model.dart';
 import 'package:lardgreen/models/user_model.dart';
 import 'package:lardgreen/states/about.dart';
 import 'package:lardgreen/states/authen.dart';
@@ -14,6 +13,7 @@ import 'package:lardgreen/states/product_finish_buyer.dart';
 import 'package:lardgreen/states/product_order_buyer.dart';
 import 'package:lardgreen/states/product_payment_buyer.dart';
 import 'package:lardgreen/states/product_paymented_buyer.dart';
+import 'package:lardgreen/states/search.dart';
 import 'package:lardgreen/states/show_chart.dart';
 import 'package:lardgreen/states/user_manual.dart';
 import 'package:lardgreen/utility/my_constant.dart';
@@ -129,6 +129,16 @@ class _MainHomeState extends State<MainHome> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         actions: [
+          ShowIconButton(
+            iconData: Icons.search_outlined,
+            pressFunc: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Search(),
+                  ));
+            },
+          ),
           ShowIconButton(
               iconData: Icons.shopping_cart_outlined,
               pressFunc: () {
@@ -305,7 +315,7 @@ class _MainHomeState extends State<MainHome> {
               iconData: Icons.filter_6,
               tapFunc: () {
                 Navigator.pop(context);
-                  setState(() {
+                setState(() {
                   indexWidget = 5;
                 });
               },
