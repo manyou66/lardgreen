@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:lardgreen/models/product_model.dart';
+import 'package:lardgreen/models/promotion_model.dart';
 import 'package:lardgreen/models/user_model.dart';
 import 'package:lardgreen/states/list_product_of_seller.dart';
 import 'package:lardgreen/states/show_detail_product.dart';
@@ -24,11 +26,15 @@ class _HomeState extends State<Home> {
   var docIdProducts = <String>[];
   String? docIdUser;
   bool load = true;
+  var widgetPromotions = <Widget>[];
+
+  var promotionModels = <PromotionModel>[];
 
   @override
   void initState() {
     super.initState();
     readAllSeller();
+    readAllBanner();
   }
 
   Future<void> readAllSeller() async {
@@ -174,16 +180,39 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Container newBanner(BoxConstraints Constraints) {
-    return Container(
-      decoration: BoxDecoration(color: MyConstant.light.withOpacity(0.75)),
-      alignment: Alignment.center,
-      width: Constraints.maxWidth,
-      height: 150,
-      child: ShowText(
-        lable: 'หลาดกรีนปั้นสุข',
-        textStyle: MyConstant().h1Style(),
-      ),
-    );
+  Widget newBanner(BoxConstraints constraints) {
+    return promotionModels.isEmpty
+        ? const ShowProgress()
+        : ImageSlideshow(
+            autoPlayInterval: 3000,
+            isLoop: true,
+            height: 150,
+            children: widgetPromotions,
+          );
+  }
+
+  Future<void> readAllBanner() async {
+    await FirebaseFirestore.instance
+        .collection('promotion')
+        .orderBy('timeAdd', descending: true)
+        .get()
+        .then((value) {
+      int amount = 0;
+      for (var item in value.docs) {
+        PromotionModel promotionModel = PromotionModel.fromMap(item.data());
+        promotionModels.add(promotionModel);
+
+        if (amount <= 4) {
+          widgetPromotions.add(
+            Image.network(
+              promotionModel.url,
+              fit: BoxFit.cover,
+            ),
+          );
+          amount++;
+        }
+      }
+      setState(() {});
+    });
   }
 }

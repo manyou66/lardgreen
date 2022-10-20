@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lardgreen/models/user_model.dart';
+import 'package:lardgreen/statewebsites/manage_promotion.dart';
 import 'package:lardgreen/utility/my_constant.dart';
+import 'package:lardgreen/widgets/show_button.dart';
 import 'package:lardgreen/widgets/show_text.dart';
 import 'package:lardgreen/widgets/show_text_button.dart';
 
@@ -52,6 +54,17 @@ class _CheckApproveUserState extends State<CheckApproveUser> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        actions: [
+          ShowButton(
+              label: 'Manage Promotion',
+              pressFunc: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ManagePromotion(),
+                    ));
+              }),
+        ],
         elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: MyConstant.dark,
