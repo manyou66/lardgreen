@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:lardgreen/models/product_model.dart';
 import 'package:lardgreen/models/user_model.dart';
 import 'package:lardgreen/states/list_product_of_seller.dart';
@@ -109,7 +108,7 @@ class _HomeState extends State<Home> {
           );
         },
         child: Card(
-          color: Color.fromARGB(255, 241, 90, 141).withOpacity(0.5),
+          color: const Color.fromARGB(255, 241, 90, 141).withOpacity(0.5),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
