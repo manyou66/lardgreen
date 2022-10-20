@@ -118,8 +118,21 @@ class _AboutBankState extends State<AboutBank> {
                                     message: 'คุณต้องการลบบัญชีนี้',
                                     label1: 'ลบบัญชี',
                                     label2: 'ยกเลิก',
-                                    presFunc1: () {
-                                      Navigator.pop(context);
+                                    presFunc1: () async {
+                                      print(
+                                          'docIdUser = $docId at docIdBank ==> ${docIdBanks[index]}');
+
+                                      await FirebaseFirestore.instance
+                                          .collection('user')
+                                          .doc(docId)
+                                          .collection('bank')
+                                          .doc(docIdBanks[index])
+                                          .delete()
+                                          .then((value) {
+                                            readAccountBank();
+                                            Navigator.pop(context);
+                                          });
+                                      
                                     },
                                     presFunc2: () {
                                       Navigator.pop(context);
